@@ -32,6 +32,7 @@ Route::group(['prefix' => 'auth'], function(){
 
 Route::group(['prefix' => 'users'], function(){
     Route::get('create', function () { return view('users.create'); });
+    Route::get('index', 'Users\UsersController@index')->name('index');
     Route::get('create', 'Users\UsersController@create')->name('create');
     Route::post('store', 'Users\UsersController@store')->name('store');
 });

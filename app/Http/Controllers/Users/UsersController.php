@@ -6,10 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Users;
+use DB;
 
 class UsersController extends Controller
 {
     //
+    public function index()
+    {
+        $users = DB::table('users')->get();
+        return view('users.index')
+                ->with('users', $users);
+    }
+
     public function create()
     {
         return view('users.create');
@@ -32,5 +40,6 @@ class UsersController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
+        return redirect(route('admin.oPD.oPDS.show', [$opds_id]))->with('success', 'OPD saved successfully');
     }
 }

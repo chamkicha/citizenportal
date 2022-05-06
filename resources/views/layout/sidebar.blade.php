@@ -55,14 +55,14 @@
         <div class="collapse {{ show_class(['users/*']) }}" id="users">
           <ul class="nav sub-menu">
             <li class="nav-item">
-              <a href="{{ url('/users/create') }}" class="nav-link {{ active_class(['users/users']) }}">Users</a>
+              <a href="{{ url('/users/index') }}" class="nav-link {{ active_class(['users/users']) }}">Users</a>
             </li>
-            <li class="nav-item">
+            {{--  <li class="nav-item">
               <a href="{{ url('/email/read') }}" class="nav-link {{ active_class(['email/read']) }}">Agents</a>
             </li>
             <li class="nav-item">
               <a href="{{ url('/email/compose') }}" class="nav-link {{ active_class(['email/compose']) }}">Consumers</a>
-            </li>
+            </li>  --}}
           </ul>
         </div>
       </li>
