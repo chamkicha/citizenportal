@@ -1,4 +1,3 @@
-@extends('layout.master')
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
@@ -12,7 +11,6 @@
 
 @endpush
 
-@section('content')
 
 <div class="row">
 
@@ -22,13 +20,13 @@
 
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Create User</h4>
+            <h4 class="mb-3 mb-md-0">Events</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{ url('/management/users/create') }}">
+            <a href="{{ url('/management/services/create') }}">
             <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
                 <i class="btn-icon-prepend" data-feather="plus"></i>
-                Add User
+                Add Events
             </button>
             </a>
         </div>
@@ -40,53 +38,46 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
             <div class="card-body">
-
-              <div class="table-responsive">
-                <table class="table table-striped table-hover" id="services-table">
-                  <thead>
+                <div class="table-responsive">
+                 @include('partial.flash_error')
+                <table class="table table-striped" id="events">
+                    <thead>
                     <tr>
-                        <th>No</th>
-                        <th> Fullname</th>
-                        <th>Email</th>
-                        <th>Phone number</th>
-                        <th>Date</th>
-                        <th>Role Name</th>
-                        <th>Action</th>
+                        <th>#</th>
+                        <th> Event Name</th>
+                        <th>EventCode</th>
+                        <th>MerchantServCode</th>
+                        <th>EventDate</th>
+                        <th>Actions</th>
                     </tr>
-                  </thead>
-                  <tbody>
-                  @foreach( $users as $user)
-
+                    </thead>
+                    <tbody>
+                    @foreach( $events['result'] as $event)
                     <tr>
-                      <td class="py-1">{{$loop->iteration}}</td>
-                      <td class="py-1">{{$user->Fullname}}</td>
-                      <td class="py-1">{{$user->Email}}</td>
-                      <td class="py-1">{{$user->phone_number}}</td>
-                      <td class="py-1">{{$user->CreatedDate}}</td>
-                      <td class="py-1">{{$user->RoleName}}</td>
-                      <td class="py-1">
-                      <button  type="button" class="btn btn-primary btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="edit"></i></a>
-                      </button>
+                        <td class="py-1">{{$loop->iteration}}</td>
+                        <td class="py-1">{{$event['EventName']}}</td>
+                        <td class="py-1">{{$event['EventCode']}}</td>
+                        <td class="py-1">{{$event['MerchantServiceCode']}}</td>
+                        <td class="py-1">{{$event['EventDate']}}</td>
+                        <td class="py-1">
+                            {{--  <button  type="button" class="btn btn-primary btn-icon">
+                            <a href="{{ url('/merchant/create') }}" style="color:white;"><i data-feather="edit"></i></a>
+                            </button>  --}}
 
-                      <button type="button" class="btn btn-success btn-icon">
-                      <a href="{{ url('/management/users/view', $user->Id) }}" style="color:white;"><i data-feather="eye"></i></a>
-                      </button>
+                            <button type="button" class="btn btn-success btn-icon">
+                            <a href="#" style="color:white;"><i data-feather="edit"></i></a>
+                            </button>
 
-                      <button type="button" class="btn btn-info btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="check-square"></i></a>
-                      </button>
+                            <button type="button" class="btn btn-danger btn-icon">
+                            <a href="#" style="color:white;"><i data-feather="delete"></i></a>
+                            </button> 
 
-                      <button type="button" class="btn btn-danger btn-icon">
-                      <a href="{{ url('/management/users/delete', $user->Id) }}" style="color:white;"><i data-feather="delete"></i></a>
-                      </button>
-                      
-                      </td>
+                        </td>
                     </tr>
-                  @endforeach
-                  </tbody>
+                    @endforeach
+                    </tbody>
                 </table>
-              </div>
+                </div>
             </div>
             </div>
         </div>
@@ -96,8 +87,6 @@
   </div>
 </div>
 
-
-@endsection
 
 @push('plugin-scripts')
   <script src="{{ asset('assets/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
@@ -142,7 +131,7 @@
     <script type="text/javascript" src="{{ asset('https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js') }}" ></script>
 
     <script>
-                    $('#services-table').DataTable({
+                    $('#events').DataTable({
                         responsive: true,
                         pageLength: 10,
                         dom: 'Bfrtip',
@@ -162,12 +151,12 @@
                                 ,'pageLength'
                         ]
                     });
-                    $('#services-table').on( 'page.dt', function () {
+                    $('#events').on( 'page.dt', function () {
                         setTimeout(function(){
                             $('.livicon').updateLivicon();
                         },500);
                     } );
-                    $('#services-table').on( 'length.dt', function ( e, settings, len ) {
+                    $('#events').on( 'length.dt', function ( e, settings, len ) {
                         setTimeout(function(){
                             $('.livicon').updateLivicon();
                         },500);

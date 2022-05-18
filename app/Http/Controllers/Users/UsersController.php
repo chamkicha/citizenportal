@@ -6,40 +6,76 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Users;
+use Illuminate\Support\Facades\Session;
 use DB;
+use App\Models\Role;
 
 class UsersController extends Controller
 {
     //
     public function index()
     {
-        $users = DB::table('users')->get();
-        return view('users.index')
-                ->with('users', $users);
+        $users  =DB::table('tbluser as u')
+            ->select('Fullname','Email','phone_number','u.CreatedDate','RoleName','u.Id')
+            ->join('tblrole as r','r.Id','=','u.RoleId')
+            ->get();
+
+//        return response()->json($users);
+
+        return view('users.index', compact('users'));
     }
 
-    public function create()
-    {
-        return view('users.create');
-        dd('sisi');
+
+    public  function  create(){
+
+        $roles   = Role::query()->get();
+        $userTypes  =  array(['internal'=>1,'external'=>2]);
+
+        return view('users.create',compact('roles','userTypes'));
+
     }
 
-    public function store(Request $request){
-        // dd($request->first_name.' '.$request->last_name);
+    public function delete($id){
+        $delete = Users::destroy($id);
+
+        Session::flash('error', 'Successfully Delete User');
+        
+        return redirect('/users/index');
+    }
 
 
+    public  function  store(Request $request){
 
-        $user = Users::create([
-            'full_name' => $request->first_name.' '.$request->last_name,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'phone_no' => $request->phone_no,
-            'gender' => $request->gender,
-            'role' => $request->role,
-            'location' => $request->location,
-            'email' => $request->email,
-            'password' => Hash::make($request->password)
-        ]);
-        return redirect(route('admin.oPD.oPDS.show', [$opds_id]))->with('success', 'OPD saved successfully');
+        $fullname  = $request->FullName;
+        $PhoneNumber = $request->PhoneNumber;
+        $Email  = $request->Email;
+        $Password = $request->Password;
+        $RoleId = $request->RoleId;
+        $UserType = $request->UserType;
+
+        $user  = new Users();
+        $user->Fullname  =  $fullname;
+        $user->phone_number  =  $PhoneNumber;
+        $user->Email  =  $Email;
+        $user->Password  =  Hash::make($Password);
+        $user->RoleId  =  $RoleId;
+        $user->UserType  =  $UserType;
+
+        $success  =  $user->save();
+
+        if ($success){
+
+            Session::flash('alert-success',' successful saved');
+
+        }
+
+        else {
+
+            Session::flash('alert-danger','Server error ');
+
+        }
+
+       return redirect('users.index');
+
     }
 }

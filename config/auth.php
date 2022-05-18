@@ -46,6 +46,11 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
+
+        'eventOwner'=>[
+            'driver'=>'session',
+            'provider'=>'eventOwner'
+        ]
     ],
 
     /*
@@ -68,8 +73,13 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Models\User::class,
         ],
+
+        'eventOwner'=>[
+            'driver'=>'eloquent',
+            'model'=>App\Models\EventOwnerAgent::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
@@ -94,6 +104,13 @@ return [
 
     'passwords' => [
         'users' => [
+            'provider' => 'users',
+            'table' => 'password_resets',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+
+        'eventOwner' => [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,

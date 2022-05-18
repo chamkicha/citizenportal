@@ -164,7 +164,19 @@ $(function() {
       
       Toast.fire({
         icon: 'success',
-        title: 'Signed in successfully'
+        title: 'Successfully'
+      })
+    } else if (type === 'services') {
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 113000
+      });
+      
+      Toast.fire({
+        icon: 'success',
+        title: 'Successfully Create Service'
       })
     }
   }

@@ -22,13 +22,13 @@
 
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Create User</h4>
+            <h4 class="mb-3 mb-md-0">Events</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{ url('/management/users/create') }}">
+            <a href="{{ url('/management/events/create') }}">
             <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
                 <i class="btn-icon-prepend" data-feather="plus"></i>
-                Add User
+                Add Event
             </button>
             </a>
         </div>
@@ -40,53 +40,57 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
             <div class="card-body">
-
-              <div class="table-responsive">
-                <table class="table table-striped table-hover" id="services-table">
-                  <thead>
+                <div class="table-responsive">
+                 @include('partial.flash_error')
+                <table class="table table-striped" id="events-table">
+                    <thead>
                     <tr>
                         <th>No</th>
-                        <th> Fullname</th>
-                        <th>Email</th>
-                        <th>Phone number</th>
-                        <th>Date</th>
-                        <th>Role Name</th>
-                        <th>Action</th>
+                        <th> Event Name</th>
+                        <th>Merchant Name</th>
+                        <th>EventCode</th>
+                        <th>MerchantServCode</th>
+                        <th>Created Date</th>
+                        <th>EventDate</th>
+                        <th>Actions</th>
                     </tr>
-                  </thead>
-                  <tbody>
-                  @foreach( $users as $user)
-
+                    </thead>
+                    <tbody>
+                    @foreach( $events['result'] as $event)
                     <tr>
-                      <td class="py-1">{{$loop->iteration}}</td>
-                      <td class="py-1">{{$user->Fullname}}</td>
-                      <td class="py-1">{{$user->Email}}</td>
-                      <td class="py-1">{{$user->phone_number}}</td>
-                      <td class="py-1">{{$user->CreatedDate}}</td>
-                      <td class="py-1">{{$user->RoleName}}</td>
-                      <td class="py-1">
-                      <button  type="button" class="btn btn-primary btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="edit"></i></a>
-                      </button>
+                        <td class="py-1">{{$loop->iteration}}</td>
+                        <td class="py-1">{{$event['EventName']}}</td>
+                        <td class="py-1">{{$event['ServiceProviderName']}}</td>
+                        <td class="py-1">{{$event['EventCode']}}</td>
+                        <td class="py-1">{{$event['MerchantServiceCode']}}</td>
+                        <td class="py-1">{{ \Carbon\Carbon::parse($event['CreatedDate'])->format('d-M-y H:m') }}</td>
+                        <td class="py-1">{{ \Carbon\Carbon::parse($event['EventDate'])->format('d-M-y H:m') }}</td>
 
-                      <button type="button" class="btn btn-success btn-icon">
-                      <a href="{{ url('/management/users/view', $user->Id) }}" style="color:white;"><i data-feather="eye"></i></a>
-                      </button>
+                        <td class="py-1">
 
-                      <button type="button" class="btn btn-info btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="check-square"></i></a>
-                      </button>
+                            <button type="button" class="btn btn-success btn-icon">
+                            <a href="{{ url('/management/events/view', ['EventCode'=>$event['EventCode'],'EventName'=>$event['EventName']]) }}" style="color:white;"><i data-feather="eye"></i></a>
+                            </button> 
+{{--  
+                            <button type="button" class="btn btn-success btn-icon">
+                            <a href="{{ url('/management/events/view', $event['EventCode']) }}" style="color:white;"><i data-feather="eye"></i></a>
+                            </button>   --}}
 
-                      <button type="button" class="btn btn-danger btn-icon">
-                      <a href="{{ url('/management/users/delete', $user->Id) }}" style="color:white;"><i data-feather="delete"></i></a>
-                      </button>
-                      
-                      </td>
+
+                            <button type="button" class="btn btn-primary btn-icon">
+                            <a href="{{ url('/management/events/edit', $event['EventCode']) }}" style="color:white;"><i data-feather="edit"></i></a>
+                            </button> 
+
+                            <button type="button" class="btn btn-danger btn-icon">
+                            <a href="{{ url('/management/events/delete', $event['EventCode']) }}" style="color:white;"><i data-feather="delete"></i></a>
+                            </button> 
+
+                        </td>
                     </tr>
-                  @endforeach
-                  </tbody>
+                    @endforeach
+                    </tbody>
                 </table>
-              </div>
+                </div>
             </div>
             </div>
         </div>
@@ -142,7 +146,7 @@
     <script type="text/javascript" src="{{ asset('https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js') }}" ></script>
 
     <script>
-                    $('#services-table').DataTable({
+                    $('#events-table').DataTable({
                         responsive: true,
                         pageLength: 10,
                         dom: 'Bfrtip',
@@ -153,21 +157,21 @@
                         buttons: [
                                 {
                                     extend: 'excelHtml5',
-                                    title: 'Service List'
+                                    title: 'events List'
                                 },
                                 {
                                     extend: 'pdfHtml5',
-                                    title: 'Service List'
+                                    title: 'events List'
                                 }
                                 ,'pageLength'
                         ]
                     });
-                    $('#services-table').on( 'page.dt', function () {
+                    $('#events-table').on( 'page.dt', function () {
                         setTimeout(function(){
                             $('.livicon').updateLivicon();
                         },500);
                     } );
-                    $('#services-table').on( 'length.dt', function ( e, settings, len ) {
+                    $('#events-table').on( 'length.dt', function ( e, settings, len ) {
                         setTimeout(function(){
                             $('.livicon').updateLivicon();
                         },500);

@@ -11,3 +11,18 @@ function is_active_route($path) {
 function show_class($path) {
   return call_user_func_array('Request::is', (array)$path) ? 'show' : '';
 }
+
+
+function base_url(){
+
+  if (app()->environment()=='local'){
+
+      return Config('api.TEST-TICKET');
+  }
+
+  else if(app()->environment()=='production'){
+
+      return Config('api.LIVE-TICKET');
+
+  }
+}

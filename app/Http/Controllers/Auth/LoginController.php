@@ -48,33 +48,79 @@ class LoginController extends Controller
         
 
         $validator = Validator::make($request->all(), [
-            'email' => 'required',
+            'username' => 'required',
             'password' => 'required',
         ]);
 
+        $option  = null;
+        if (is_numeric($request->username)){
+
+            $request->merge(['phone_number' =>$request->username]);
+
+            $option =  'phone';
+        }
+        else {
+
+            $request->merge(['email' =>$request->username]);
+
+            $option =  'email';
+
+        }
+
+//        return response()->json($request->all());
+
         if ($validator->fails()) {
 
-            Session::flash('alert-danger','Password Or Email can not be empty');
+            Session::flash('alert-danger','Fill all field(s)');
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        else {
+        $username= $request->email;
+        $password = $request->password;
 
-            if (Auth::attempt(['email'=> $request->email, 'password'=> $request->password])){
-                $user =  Auth::user();
+        if ($option=='phone'){
 
-                return redirect('dashboard');
-            }
+            $credentials = $request->only('phone_number', 'password');
 
-            else {
+            if (Auth::attempt($credentials)) {
 
-
-                Session::flash('alert-danger', 'Email or password is incorrect');
-
-                return back();
+                return redirect()->route('dashboard');
 
             }
+
         }
+
+        else if ($option=='email'){
+
+            $credentials = $request->only('email', 'password');
+
+            if (Auth::guard('eventOwner')->attempt($credentials)) {
+
+//                return redirect()->route('dashboard');
+
+                DB::table('tblEvenOwnerAgent')->where(['email'=>$username])->update(['MerchantTin'=>$request->tin]);
+
+//                dd(Auth::guard('eventOwner')->user());
+
+
+                return redirect()->route('event-agent-dashboard');
+
+            }
+            Session::flash('alert-danger','Invalid email or password or input');
+
+            return redirect('/');
+        }
+        else{
+
+            Session::flash('alert-danger','Invalid phone number or password or input');
+
+            return redirect('/');
+        }
+
+
+        Session::flash('alert-danger','Invalid phone number or password');
+
+        return redirect('/');
     }
 
 

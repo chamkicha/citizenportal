@@ -15,7 +15,7 @@
 @section('content')
 <nav class="page-breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ url('/management/users/index') }}">Services</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('/management/events/index') }}">Services</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create</li>
   </ol>
 </nav>
@@ -28,47 +28,23 @@
         <h6 class="card-title">Create Service</h6>
                     @include('partial.flash_error')
 
-            <form class="forms-sample" action="{{url('/management/users/store')}}" method="post" id="form-login" autocomplete="off">
+            <form class="forms-sample" action="{{url('/management/events/store')}}" method="post" id="form-login" autocomplete="off">
 
                 {{csrf_field()}}
             <div class="row">
               <div class="col-sm-4">
                 <div class="form-group">
-
-                  <label class="control-label">FullName</label>
-                  <input type="text"    value="{{old('FullName')}}"  class="form-control" required name="FullName" placeholder="FullName">
-
-                
+                  <label class="control-label">Event Name</label>
+                  <input name="ServiceProviderName" required  type="text" class="form-control" placeholder="Enter Event Name">
                 </div>
               </div><!-- Col -->
               <div class="col-sm-4">
                 <div class="form-group">
-                    
-                    <label class="control-label">Password</label>
-                    <input type="text" value="{{old('Password')}}" class="form-control" required  name="Password" placeholder="Password">
-
-                </div>
-              </div><!-- Col -->
-              <div class="col-sm-4">
-              </div><!-- Col -->
-            </div><!-- Row -->
-
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="form-group">
-
-                  <label class="control-label">PhoneNumber</label>
-                  <input type="text" value="{{old('PhoneNumber')}}" class="form-control" required  name="PhoneNumber" placeholder="PhoneNumber">
-
-                </div>
-              </div><!-- Col -->
-              <div class="col-sm-4">
-                <div class="form-group">
-                    <label class="control-label">Role</label>
-                    <select type="text"  class="form-control" required  name="RoleId" >
-                        <option selected disabled>--select role--</option>
-                        @foreach($roles as $row)
-                            <option value="{{$row->Id}}">{{$row->RoleName}}</option>
+                  <label class="control-label">Merchants</label>
+                    <select class="form-control mb-3" name="status">
+                        <option disabled selected="">Select Status</option>
+                        @foreach($merchants['result'] as $row)
+                            <option value="{{$row['TinNo']}}">{{$row['ServiceProviderName']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -80,18 +56,42 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="form-group">
-                  <label class="control-label">Email</label>
-                  <input type="email" value="{{old('Email')}}" class="form-control" required  name="Email" placeholder="Email">
+                  <label class="control-label">Event Code</label>
+                 <input type="text" readonly value="{{old('EventCode',$eventCode->EventCode)}}" class="form-control" required  name="EventCode" placeholder="EventCode">
 
                 </div>
               </div><!-- Col -->
               <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="control-label">User type</label>
-                    <select type="text"  class="form-control" required  name="UserType" >
-                        <option value="1">Internal</option>
-                        <option value="2">External</option>
+                  <label class="control-label">MerchantServCode</label>
+                    <select id="MerchantServCode" class="form-control mb-3" name="status">
+
                     </select>
+                </div>
+              </div><!-- Col -->
+              <div class="col-sm-4">
+              </div><!-- Col -->
+            </div><!-- Row -->
+
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label">Owner</label>
+                    <select class="form-control mb-3" name="status">
+                        <option disabled selected="">Select Status</option>
+
+                        @foreach($owners as $row)
+                            <option value="{{$row->OwnerCode}}">{{$row->EventOwner}}</option>
+                        @endforeach
+
+                    </select>
+                </div>
+              </div><!-- Col -->
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label class="control-label">EventDate</label>
+                    <input type="datetime-local" value="{{old('EventDate')}}" class="form-control" required  name="EventDate" placeholder="EventDate">
+
                 </div>
               </div><!-- Col -->
               <div class="col-sm-4">

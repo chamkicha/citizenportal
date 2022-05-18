@@ -22,71 +22,121 @@
 
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Create User</h4>
+            <h4 class="mb-3 mb-md-0">Event: {{$eventName}}</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{ url('/management/users/create') }}">
+            {{--  <a href="{{ url('/management/events/create-ticket-category', $eventCode) }}">
             <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
                 <i class="btn-icon-prepend" data-feather="plus"></i>
-                Add User
+                Add Category
             </button>
-            </a>
+            </a>  --}}
+           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#varyingModal" data-whatever="@mdo">Add Ticket Category</button>
+        
+         
+        <div class="modal fade" id="varyingModal" tabindex="-1" role="dialog" aria-labelledby="varyingModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="varyingModalLabel">Create Service</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                
+                @include('events.create_event_category')
+
+                </div>
+            </div>
+            </div>
+        </div>
+        
         </div>
         </div>
       </div>
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">Change status</h6>
+
+            <form class="forms-sample" action="{{url('/management/events/update-on-ussd',['EventCode'=>$eventCode,'EventName'=>$eventName])}}" method="post" id="form-login" autocomplete="off">
+
+                {{csrf_field()}}
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                    <select class="form-control mb-3" name="status">
+                        <option selected="">Select Status</option>
+                        <option value="ENABLE">ENABLE</option>
+                        <option value="DISABLE">DISABLE</option>
+                    </select>
+                  </div>
+              </div><!-- Col -->
+              <div class="col-sm-4">
+                <div class="form-group">
+          <button type="submit" class="btn btn-primary submit">Submit</button>
+                </div>
+              </div><!-- Col -->
+              <div class="col-sm-4">
+              </div><!-- Col -->
+            </div><!-- Row -->
+
+
+
+          </form>
+      </div>
+    </div>
       
 
         <div class="row">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
             <div class="card-body">
-
-              <div class="table-responsive">
-                <table class="table table-striped table-hover" id="services-table">
-                  <thead>
+                <div class="table-responsive">
+                 @include('partial.flash_error')
+                <table class="table table-striped" id="events-table">
+                    <thead>
                     <tr>
                         <th>No</th>
-                        <th> Fullname</th>
-                        <th>Email</th>
-                        <th>Phone number</th>
-                        <th>Date</th>
-                        <th>Role Name</th>
+                        <th>CategoryName</th>
+                        <th>CategoryCode</th>
+                        <th>Price</th>
+                        <th>PriceCode</th>
+                        <th>max_capacity</th>
+                        <th>current_capacity</th>
                         <th>Action</th>
                     </tr>
-                  </thead>
-                  <tbody>
-                  @foreach( $users as $user)
-
+                    </thead>
+                    <tbody>
+                    @foreach( $events['result'] as $event)
                     <tr>
-                      <td class="py-1">{{$loop->iteration}}</td>
-                      <td class="py-1">{{$user->Fullname}}</td>
-                      <td class="py-1">{{$user->Email}}</td>
-                      <td class="py-1">{{$user->phone_number}}</td>
-                      <td class="py-1">{{$user->CreatedDate}}</td>
-                      <td class="py-1">{{$user->RoleName}}</td>
-                      <td class="py-1">
-                      <button  type="button" class="btn btn-primary btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="edit"></i></a>
-                      </button>
+                        <td class="py-1">{{$loop->iteration}}</td>
+                        <td class="py-1">{{$event['CategoryName']}}</td>
+                        <td class="py-1">{{$event['CategoryCode']}}</td>
+                        <td class="py-1">{{$event['Price']}}</td>
+                        <td class="py-1">{{$event['PriceCode']}}</td>
+                        <td class="py-1">{{$event['max_capacity']}}</td>
+                        <td class="py-1">{{$event['current_capacity']}}</td>
+                        <td class="py-1">
 
-                      <button type="button" class="btn btn-success btn-icon">
-                      <a href="{{ url('/management/users/view', $user->Id) }}" style="color:white;"><i data-feather="eye"></i></a>
-                      </button>
+                            <button type="button" class="btn btn-success btn-icon">
+                            <a href="{{ url('/management/events/view', $eventCode) }}" style="color:white;"><i data-feather="eye"></i></a>
+                            </button> 
 
-                      <button type="button" class="btn btn-info btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="check-square"></i></a>
-                      </button>
+                            <button type="button" class="btn btn-primary btn-icon">
+                            <a href="{{ url('/management/events/edit', $eventCode) }}" style="color:white;"><i data-feather="edit"></i></a>
+                            </button> 
 
-                      <button type="button" class="btn btn-danger btn-icon">
-                      <a href="{{ url('/management/users/delete', $user->Id) }}" style="color:white;"><i data-feather="delete"></i></a>
-                      </button>
-                      
-                      </td>
+                            <button type="button" class="btn btn-danger btn-icon">
+                            <a href="{{ url('/management/events/delete', $eventCode) }}" style="color:white;"><i data-feather="delete"></i></a>
+                            </button> 
+
+                        </td>
                     </tr>
-                  @endforeach
-                  </tbody>
+                    @endforeach
+                    </tbody>
                 </table>
-              </div>
+                </div>
             </div>
             </div>
         </div>
@@ -142,7 +192,7 @@
     <script type="text/javascript" src="{{ asset('https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js') }}" ></script>
 
     <script>
-                    $('#services-table').DataTable({
+                    $('#events-table').DataTable({
                         responsive: true,
                         pageLength: 10,
                         dom: 'Bfrtip',
@@ -153,21 +203,21 @@
                         buttons: [
                                 {
                                     extend: 'excelHtml5',
-                                    title: 'Service List'
+                                    title: 'events List'
                                 },
                                 {
                                     extend: 'pdfHtml5',
-                                    title: 'Service List'
+                                    title: 'events List'
                                 }
                                 ,'pageLength'
                         ]
                     });
-                    $('#services-table').on( 'page.dt', function () {
+                    $('#events-table').on( 'page.dt', function () {
                         setTimeout(function(){
                             $('.livicon').updateLivicon();
                         },500);
                     } );
-                    $('#services-table').on( 'length.dt', function ( e, settings, len ) {
+                    $('#events-table').on( 'length.dt', function ( e, settings, len ) {
                         setTimeout(function(){
                             $('.livicon').updateLivicon();
                         },500);

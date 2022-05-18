@@ -22,13 +22,13 @@
 
         <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
         <div>
-            <h4 class="mb-3 mb-md-0">Create User</h4>
+            <h4 class="mb-3 mb-md-0">Services Provider</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{ url('/management/users/create') }}">
+            <a href="{{ url('/management/services_provider/create') }}">
             <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
                 <i class="btn-icon-prepend" data-feather="plus"></i>
-                Add User
+                Add Service Provider
             </button>
             </a>
         </div>
@@ -40,53 +40,37 @@
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
             <div class="card-body">
-
-              <div class="table-responsive">
-                <table class="table table-striped table-hover" id="services-table">
-                  <thead>
+                <div class="table-responsive">
+                 @include('partial.flash_error')
+                <table class="table table-striped" id="services-table">
+                    <thead>
                     <tr>
-                        <th>No</th>
-                        <th> Fullname</th>
-                        <th>Email</th>
-                        <th>Phone number</th>
-                        <th>Date</th>
-                        <th>Role Name</th>
-                        <th>Action</th>
+                        <th>#</th>
+                        <th>SERVICE PROVIDER NAME</th>
+                        <th>TIN NO</th>
+                        <th>CREATED DATE</th>
+                        <th>ACTIONS</th>
                     </tr>
-                  </thead>
-                  <tbody>
-                  @foreach( $users as $user)
-
+                    </thead>
+                    <tbody>
+                    @foreach( $service_providers['result'] as $services_provider)
                     <tr>
-                      <td class="py-1">{{$loop->iteration}}</td>
-                      <td class="py-1">{{$user->Fullname}}</td>
-                      <td class="py-1">{{$user->Email}}</td>
-                      <td class="py-1">{{$user->phone_number}}</td>
-                      <td class="py-1">{{$user->CreatedDate}}</td>
-                      <td class="py-1">{{$user->RoleName}}</td>
-                      <td class="py-1">
-                      <button  type="button" class="btn btn-primary btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="edit"></i></a>
-                      </button>
+                        <td class="py-1">{{$loop->iteration}}</td>
+                        <td class="py-1">{{$services_provider['ServiceProviderName']}}</td>
+                        <td class="py-1">{{$services_provider['TinNo']}}</td>
+                        <td class="py-1">{{$services_provider['CreatedDate']}}</td>
+                        <td class="py-1">
 
-                      <button type="button" class="btn btn-success btn-icon">
-                      <a href="{{ url('/management/users/view', $user->Id) }}" style="color:white;"><i data-feather="eye"></i></a>
-                      </button>
+                            <a href="{{ url('/management/services_provider/view', $services_provider['TinNo']) }}" class="btn btn-success btn-xs active" role="button" aria-pressed="true">View</a>
+                            <a href="{{ url('/management/services_provider/edit', $services_provider['TinNo']) }}" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Edit</a>
+                            <a href="{{ url('/management/services_provider/delete', $services_provider['TinNo']) }}" class="btn btn-danger btn-xs active" role="button" aria-pressed="true">Delete</a>
 
-                      <button type="button" class="btn btn-info btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="check-square"></i></a>
-                      </button>
-
-                      <button type="button" class="btn btn-danger btn-icon">
-                      <a href="{{ url('/management/users/delete', $user->Id) }}" style="color:white;"><i data-feather="delete"></i></a>
-                      </button>
-                      
-                      </td>
+                        </td>
                     </tr>
-                  @endforeach
-                  </tbody>
+                    @endforeach
+                    </tbody>
                 </table>
-              </div>
+                </div>
             </div>
             </div>
         </div>

@@ -30,11 +30,79 @@ Route::group(['prefix' => 'auth'], function(){
     Route::get('create', function () { return view('users.create'); });
 });
 
-Route::group(['prefix' => 'users'], function(){
-    Route::get('create', function () { return view('users.create'); });
-    Route::get('index', 'Users\UsersController@index')->name('index');
-    Route::get('create', 'Users\UsersController@create')->name('create');
-    Route::post('store', 'Users\UsersController@store')->name('store');
+Route::group(['prefix' => 'management'], function(){
+    Route::get('services/index', 'services\servicesController@index')->name('index');
+    Route::get('services/create', 'services\servicesController@create')->name('create');
+    Route::post('services/store', 'services\servicesController@store')->name('store');
+    Route::get('services/view/{id}', 'services\servicesController@view')->name('view');
+    Route::post('services/search', 'services\servicesController@search')->name('search');
+    Route::get('services/delete/{id}', 'services\servicesController@delete')->name('delete');
+    Route::get('services/edit/{id}', 'services\servicesController@edit')->name('edit');
+    Route::post('services/update/{id}', 'services\servicesController@update')->name('update');
+});
+
+Route::group(['prefix' => 'management'], function(){
+    Route::get('services_provider/index', 'servicesProvider\servicesProviderController@index')->name('index');
+    Route::get('services_provider/create', 'servicesProvider\servicesProviderController@create')->name('create');
+    Route::post('services_provider/store', 'servicesProvider\servicesProviderController@store')->name('store');
+    Route::get('services_provider/view/{id}', 'servicesProvider\servicesProviderController@view')->name('view');
+    Route::post('services_provider/search', 'servicesProvider\servicesProviderController@search')->name('search');
+    Route::get('services_provider/delete/{id}', 'servicesProvider\servicesProviderController@delete')->name('delete');
+    Route::get('services_provider/edit/{id}', 'servicesProvider\servicesProviderController@edit')->name('edit');
+    Route::post('services_provider/update/{id}', 'servicesProvider\servicesProviderController@update')->name('update');
+});
+
+Route::group(['prefix' => 'management'], function(){
+    Route::get('events/index', 'Events\EventsController@index')->name('index');
+    Route::get('events/create', 'Events\EventsController@create')->name('create');
+    Route::post('events/store', 'Events\EventsController@store')->name('store');
+    Route::get('events/view/{EventCode}/{EventName}', 'Events\EventsController@view')->name('view');
+    Route::post('events/search', 'Events\EventsController@search')->name('search');
+    Route::get('events/delete/{id}', 'Events\EventsController@delete')->name('delete');
+    Route::get('events/get-merchant-ticket-category/{msCode}', 'Events\EventsController@getMerchantCategoryByMsCode')->name('getMerchantCategoryByMsCode');
+    Route::get('events/edit/{id}', 'Events\EventsController@edit')->name('edit');
+    Route::get('events/get-merchant-code/{TinNo}', 'Events\EventsController@getMerchantCode')->name('getMerchantCode');
+    Route::get('events/create-ticket-category/{EventCode}', 'Events\EventsController@create_ticket_category')->name('create-ticket-category');
+    Route::post('events/store-event-category','Events\EventsController@storeTicketCategory');
+    Route::post('events/update/{id}', 'Events\EventsController@update')->name('update');
+    Route::post('events/update-on-ussd/{eventcode}/{EventName}', 'Events\EventsController@update_on_ussd')->name('update-on-ussd');
+});
+
+Route::group(['prefix' => 'management'], function(){
+    // Route::get('create', function () { return view('users.create'); });
+    Route::get('users/index', 'Users\UsersController@index')->name('index');
+    Route::get('users/create', 'Users\UsersController@create')->name('create');
+    Route::post('users/store', 'Users\UsersController@store')->name('store');
+    Route::get('users/delete/{id}', 'Users\UsersController@delete')->name('delete');
+});
+
+Route::group(['prefix' => 'validation'], function(){
+    Route::get('index', 'validation\ValidationController@index')->name('index');
+    Route::get('create', 'validation\ValidationController@create')->name('create');
+    Route::post('store', 'validation\ValidationController@store')->name('store');
+    Route::get('view/{id}', 'validation\ValidationController@view')->name('view');
+    Route::post('search', 'validation\ValidationController@search')->name('search');
+    Route::get('delete/{id}', 'validation\ValidationController@delete')->name('delete');
+    Route::get('edit/{id}', 'validation\ValidationController@edit')->name('edit');
+    Route::post('update/{id}', 'validation\ValidationController@update')->name('update');
+});
+
+Route::group(['prefix' => 'tickets'], function(){
+    Route::get('index', 'Tickets\TicketsControllerr@index')->name('index');
+    Route::get('create', 'Tickets\TicketsController@create')->name('create');
+    Route::post('store', 'Tickets\TicketsController@store')->name('store');
+    Route::get('view/{id}', 'Tickets\TicketsController@view')->name('view');
+    Route::get('searchBydate', 'Tickets\TicketsController@searchBydate')->name('searchBydate');
+    Route::get('delete/{id}', 'Tickets\TicketsController@delete')->name('delete');
+    Route::get('edit/{id}', 'Tickets\TicketsController@edit')->name('edit');
+    Route::post('update/{id}', 'Tickets\TicketsController@update')->name('update');
+});
+
+Route::group(['prefix' => 'Citizen'], function(){
+    Route::get('index', 'Citizen\CitizenController@index')->name('index');
+    Route::get('view/{id}', 'Citizen\CitizenController@view')->name('view');
+    Route::post('search', 'Citizen\CitizenController@search')->name('search');
+    Route::get('delete/{id}', 'Citizen\CitizenController@delete')->name('delete');
 });
 
 

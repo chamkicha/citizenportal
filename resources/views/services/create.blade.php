@@ -9,13 +9,14 @@
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
 
 @endpush
 
 @section('content')
 <nav class="page-breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="{{ url('/management/users/index') }}">Services</a></li>
+    <li class="breadcrumb-item"><a href="{{ url('/management/services/index') }}">Services</a></li>
     <li class="breadcrumb-item active" aria-current="page">Create</li>
   </ol>
 </nav>
@@ -28,26 +29,17 @@
         <h6 class="card-title">Create Service</h6>
                     @include('partial.flash_error')
 
-            <form class="forms-sample" action="{{url('/management/users/store')}}" method="post" id="form-login" autocomplete="off">
+            <form class="forms-sample" action="{{url('/management/services/store')}}" method="post" id="form-login" autocomplete="off">
 
                 {{csrf_field()}}
             <div class="row">
               <div class="col-sm-4">
                 <div class="form-group">
-
-                  <label class="control-label">FullName</label>
-                  <input type="text"    value="{{old('FullName')}}"  class="form-control" required name="FullName" placeholder="FullName">
-
-                
+                  <label class="control-label">Service Name</label>
+                  <input name="ServiceName" required  type="text" class="form-control" placeholder="Enter Service Name">
                 </div>
               </div><!-- Col -->
               <div class="col-sm-4">
-                <div class="form-group">
-                    
-                    <label class="control-label">Password</label>
-                    <input type="text" value="{{old('Password')}}" class="form-control" required  name="Password" placeholder="Password">
-
-                </div>
               </div><!-- Col -->
               <div class="col-sm-4">
               </div><!-- Col -->
@@ -56,50 +48,18 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="form-group">
-
-                  <label class="control-label">PhoneNumber</label>
-                  <input type="text" value="{{old('PhoneNumber')}}" class="form-control" required  name="PhoneNumber" placeholder="PhoneNumber">
-
+                  <label class="control-label">Service Code</label>
+                  <input name="ServiceCode" required  type="text" class="form-control" placeholder="Enter Service Code">
                 </div>
               </div><!-- Col -->
               <div class="col-sm-4">
-                <div class="form-group">
-                    <label class="control-label">Role</label>
-                    <select type="text"  class="form-control" required  name="RoleId" >
-                        <option selected disabled>--select role--</option>
-                        @foreach($roles as $row)
-                            <option value="{{$row->Id}}">{{$row->RoleName}}</option>
-                        @endforeach
-                    </select>
-                </div>
-              </div><!-- Col -->
-              <div class="col-sm-4">
-              </div><!-- Col -->
-            </div><!-- Row -->
-
-            <div class="row">
-              <div class="col-sm-4">
-                <div class="form-group">
-                  <label class="control-label">Email</label>
-                  <input type="email" value="{{old('Email')}}" class="form-control" required  name="Email" placeholder="Email">
-
-                </div>
-              </div><!-- Col -->
-              <div class="col-sm-4">
-                <div class="form-group">
-                    <label class="control-label">User type</label>
-                    <select type="text"  class="form-control" required  name="UserType" >
-                        <option value="1">Internal</option>
-                        <option value="2">External</option>
-                    </select>
-                </div>
               </div><!-- Col -->
               <div class="col-sm-4">
               </div><!-- Col -->
             </div><!-- Row -->
 
 
-          <button type="submit" class="btn btn-primary submit">Submit</button>
+          <button type="submit" onclick="showSwal('services')" class="btn btn-primary submit">Submit</button>
           </form>
       </div>
     </div>
@@ -120,6 +80,8 @@
   <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/moment/moment.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.js') }}"></script>
+  <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/promise-polyfill/polyfill.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
@@ -134,4 +96,6 @@
   <script src="{{ asset('assets/js/bootstrap-colorpicker.js') }}"></script>
   <script src="{{ asset('assets/js/datepicker.js') }}"></script>
   <script src="{{ asset('assets/js/timepicker.js') }}"></script>
+  <script src="{{ asset('assets/js/sweet-alert.js') }}"></script>
 @endpush
+
