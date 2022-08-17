@@ -25,7 +25,7 @@
             <h4 class="mb-3 mb-md-0">Create User</h4>
         </div>
         <div class="d-flex align-items-center flex-wrap text-nowrap">
-            <a href="{{ url('/management/users/create') }}">
+            <a href="{{ url('/users/users/create') }}">
             <button type="button" class="btn btn-primary btn-icon-text mb-2 mb-md-0">
                 <i class="btn-icon-prepend" data-feather="plus"></i>
                 Add User
@@ -59,26 +59,24 @@
 
                     <tr>
                       <td class="py-1">{{$loop->iteration}}</td>
-                      <td class="py-1">{{$user->Fullname}}</td>
-                      <td class="py-1">{{$user->Email}}</td>
-                      <td class="py-1">{{$user->phone_number}}</td>
-                      <td class="py-1">{{$user->CreatedDate}}</td>
-                      <td class="py-1">{{$user->RoleName}}</td>
+                      <td class="py-1">{{$user->full_name}}</td>
+                      <td class="py-1">{{$user->email }}</td>
+                      <td class="py-1">{{$user->phone_no }}</td>
+                      <td class="py-1">{{$user->created_at}}</td>
+                      <td class="py-1">{{$user->name}}</td>
                       <td class="py-1">
-                      <button  type="button" class="btn btn-primary btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="edit"></i></a>
-                      </button>
+                      
 
                       <button type="button" class="btn btn-success btn-icon">
-                      <a href="{{ url('/management/users/view', $user->Id) }}" style="color:white;"><i data-feather="eye"></i></a>
+                      <a href="{{ url('/users/users/view', $user->id) }}" style="color:white;"><i data-feather="eye"></i></a>
                       </button>
 
                       <button type="button" class="btn btn-info btn-icon">
-                      <a href="{{ url('/management/users/create') }}" style="color:white;"><i data-feather="check-square"></i></a>
+                      <a href="{{ url('/users/users/edit', $user->id) }}" style="color:white;"><i data-feather="check-square"></i></a>
                       </button>
 
                       <button type="button" class="btn btn-danger btn-icon">
-                      <a href="{{ url('/management/users/delete', $user->Id) }}" style="color:white;"><i data-feather="delete"></i></a>
+                      <a href="{{ url('/users/users/delete', $user->id) }}" style="color:white;"><i data-feather="delete"></i></a>
                       </button>
                       
                       </td>

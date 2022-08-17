@@ -9,7 +9,7 @@
   <!-- CSRF Token -->
   <meta name="_token" content="{{ csrf_token() }}">
   
-  <link rel="shortcut icon" href="{{ asset('/icon.ico') }}">
+  <link rel="shortcut icon" href="{{ asset('/icon2.ico') }}">
 
   <!-- plugin css -->
   <link href="{{ asset('assets/fonts/feather-font/css/iconfont.css') }}" rel="stylesheet" />

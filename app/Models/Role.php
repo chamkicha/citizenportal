@@ -6,5 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    protected $table='tblrole';
+
+
+    protected $table = 'roles';
+
+
+    protected $primaryKey  = 'id';
+
+    protected $fillable = [
+        'name', 'slug','permissions',
+    ];
 }

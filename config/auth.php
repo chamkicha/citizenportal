@@ -31,7 +31,7 @@ return [
     | users are actually retrieved out of your database or other storage
     | mechanisms used by this application to persist your user's data.
     |
-    | Supported: "session", "token"
+    | Supported: "session"
     |
     */
 
@@ -40,17 +40,6 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ],
-
-        'eventOwner'=>[
-            'driver'=>'session',
-            'provider'=>'eventOwner'
-        ]
     ],
 
     /*
@@ -76,11 +65,6 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'eventOwner'=>[
-            'driver'=>'eloquent',
-            'model'=>App\Models\EventOwnerAgent::class,
-        ]
-
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -104,13 +88,6 @@ return [
 
     'passwords' => [
         'users' => [
-            'provider' => 'users',
-            'table' => 'password_resets',
-            'expire' => 60,
-            'throttle' => 60,
-        ],
-
-        'eventOwner' => [
             'provider' => 'users',
             'table' => 'password_resets',
             'expire' => 60,

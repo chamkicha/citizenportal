@@ -17,6 +17,7 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        // dd(Auth::attempt(['email'=> $request->email, 'password'=> $request->password]));
         if (Auth::guard($guard)->check()) {
             return redirect('/dashboard');
         }

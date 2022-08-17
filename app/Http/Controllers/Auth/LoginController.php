@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
-use DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -30,97 +30,54 @@ class LoginController extends Controller
      *
      * @var string
      */
-    //protected $redirectTo = '/home';
+    // protected $redirectTo = RouteServiceProvider::Dashboard;
+    // protected $redirectTo = '/dashboard';
 
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('guest')->except('logout');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('guest')->except('logout');
+    // }
+
+    
 
     //main function for login
-    public function WebLogin(Request $request)
+    public function login(Request $request)
     {
-        
+        // dd(Auth::attempt(['email'=> $request->email, 'password'=> $request->password]));
 
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
+            'email' => 'required',
             'password' => 'required',
         ]);
 
-        $option  = null;
-        if (is_numeric($request->username)){
-
-            $request->merge(['phone_number' =>$request->username]);
-
-            $option =  'phone';
-        }
-        else {
-
-            $request->merge(['email' =>$request->username]);
-
-            $option =  'email';
-
-        }
-
-//        return response()->json($request->all());
-
         if ($validator->fails()) {
 
-            Session::flash('alert-danger','Fill all field(s)');
+            Session::flash('alert-danger','Password Or Email can not be empty');
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $username= $request->email;
-        $password = $request->password;
+        else {
 
-        if ($option=='phone'){
+            if (Auth::attempt(['email'=> $request->email, 'password'=> $request->password])){
+                $user =  Auth::user();
 
-            $credentials = $request->only('phone_number', 'password');
-
-            if (Auth::attempt($credentials)) {
-
-                return redirect()->route('dashboard');
-
+                return redirect('dashboard');
             }
 
-        }
-
-        else if ($option=='email'){
-
-            $credentials = $request->only('email', 'password');
-
-            if (Auth::guard('eventOwner')->attempt($credentials)) {
-
-//                return redirect()->route('dashboard');
-
-                DB::table('tblEvenOwnerAgent')->where(['email'=>$username])->update(['MerchantTin'=>$request->tin]);
-
-//                dd(Auth::guard('eventOwner')->user());
+            else {
 
 
-                return redirect()->route('event-agent-dashboard');
+                Session::flash('alert-danger', 'Email or password is incorrect');
+
+                return back();
 
             }
-            Session::flash('alert-danger','Invalid email or password or input');
-
-            return redirect('/');
         }
-        else{
-
-            Session::flash('alert-danger','Invalid phone number or password or input');
-
-            return redirect('/');
-        }
-
-
-        Session::flash('alert-danger','Invalid phone number or password');
-
-        return redirect('/');
     }
 
 

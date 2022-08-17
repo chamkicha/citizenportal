@@ -28,7 +28,7 @@
         <h6 class="card-title">Create Service</h6>
                     @include('partial.flash_error')
 
-            <form class="forms-sample" action="{{url('/management/users/store')}}" method="post" id="form-login" autocomplete="off">
+            <form class="forms-sample" action="{{url('/users/users/store')}}" method="post" id="form-login" autocomplete="off">
 
                 {{csrf_field()}}
             <div class="row">
@@ -36,7 +36,7 @@
                 <div class="form-group">
 
                   <label class="control-label">FullName</label>
-                  <input type="text"    value="{{old('FullName')}}"  class="form-control" required name="FullName" placeholder="FullName">
+                  <input type="text"    value="{{old('password')}}"  class="form-control" required name="full_name" placeholder="FullName">
 
                 
                 </div>
@@ -45,7 +45,7 @@
                 <div class="form-group">
                     
                     <label class="control-label">Password</label>
-                    <input type="text" value="{{old('Password')}}" class="form-control" required  name="Password" placeholder="Password">
+                    <input type="text" value="{{old('password')}}" class="form-control" required  name="password" placeholder="Password">
 
                 </div>
               </div><!-- Col -->
@@ -58,20 +58,18 @@
                 <div class="form-group">
 
                   <label class="control-label">PhoneNumber</label>
-                  <input type="text" value="{{old('PhoneNumber')}}" class="form-control" required  name="PhoneNumber" placeholder="PhoneNumber">
+                  <input type="text" value="{{old('phone_no')}}" class="form-control" required  name="phone_no" placeholder="PhoneNumber">
 
                 </div>
               </div><!-- Col -->
               <div class="col-sm-4">
+                
                 <div class="form-group">
-                    <label class="control-label">Role</label>
-                    <select type="text"  class="form-control" required  name="RoleId" >
-                        <option selected disabled>--select role--</option>
-                        @foreach($roles as $row)
-                            <option value="{{$row->Id}}">{{$row->RoleName}}</option>
-                        @endforeach
-                    </select>
+                  <label class="control-label">Email</label>
+                  <input type="email" value="{{old('email')}}" class="form-control" required  name="email" placeholder="Email">
+
                 </div>
+                
               </div><!-- Col -->
               <div class="col-sm-4">
               </div><!-- Col -->
@@ -80,19 +78,17 @@
             <div class="row">
               <div class="col-sm-4">
                 <div class="form-group">
-                  <label class="control-label">Email</label>
-                  <input type="email" value="{{old('Email')}}" class="form-control" required  name="Email" placeholder="Email">
-
-                </div>
+                  <label class="control-label">Role</label>
+                  <select type="text"  class="form-control" required  name="role" id="role" >
+                      <option selected disabled>--select role--</option>
+                      @foreach($roles as $role)
+                          <option value="{{$role->id}}">{{$role->name}}</option>
+                      @endforeach
+                  </select>
+              </div>
               </div><!-- Col -->
               <div class="col-sm-4">
-                <div class="form-group">
-                    <label class="control-label">User type</label>
-                    <select type="text"  class="form-control" required  name="UserType" >
-                        <option value="1">Internal</option>
-                        <option value="2">External</option>
-                    </select>
-                </div>
+                
               </div><!-- Col -->
               <div class="col-sm-4">
               </div><!-- Col -->
@@ -134,4 +130,23 @@
   <script src="{{ asset('assets/js/bootstrap-colorpicker.js') }}"></script>
   <script src="{{ asset('assets/js/datepicker.js') }}"></script>
   <script src="{{ asset('assets/js/timepicker.js') }}"></script>
+
+  
+  <script>  
+    
+
+    function change_role() 
+    {
+        var selectBox = document.getElementById("role");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+        if (selectedValue=="2")
+            {
+            $('#tin_no').show(200);
+            }
+        else{
+            $('#tin_no').hide(200);
+            }
+    }
+
+</script>
 @endpush

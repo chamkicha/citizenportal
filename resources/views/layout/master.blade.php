@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>N-Cards Portal</title>
+  <title>Train House Menu</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -21,11 +21,12 @@
 
   <!-- common css -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
+  <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
   <!-- end common css -->
 
   @stack('style')
 </head>
-<body data-base-url="{{url('/dashboard')}}" class="loaded settings-open sidebar-dark">
+<body data-base-url="{{url('/dashboard')}}" class="loaded sidebar-dark">
 
   <script src="{{ asset('assets/js/spinner.js') }}"></script>
 

@@ -21,13 +21,13 @@
               <h5 class="text-muted font-weight-normal mb-4"></h5>
                         @include('partial.flash_error')
 
-              <form class="forms-sample" action="{{url('/login')}}" method="post" id="form-login" autocomplete="off">
+              <form class="forms-sample" action="{{ route('login') }}" method="post" id="form-login" autocomplete="off">
 
                   {{csrf_field()}}
 
                 <div class="form-group">
-                  <label for="exampleInputEmail1">Email address</label>
-                  <input type="email" name="username" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                  <label for="exampleInputEmail1">Username</label>
+                  <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Username">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Password</label>
